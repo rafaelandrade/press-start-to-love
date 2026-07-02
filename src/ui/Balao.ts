@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { UI, GAME_WIDTH } from "./constants";
+import { UI, GAME_WIDTH, FONT_SM } from "./constants";
 
 /**
  * Balão de fala pixel-art com animação typewriter.
@@ -35,14 +35,15 @@ export class Balao {
 
     const estilo: Phaser.Types.GameObjects.Text.TextStyle = {
       fontFamily: UI.fonte,
-      fontSize: "6px",
+      fontSize: FONT_SM,
       color: "#1d2140",
       lineSpacing: 4,
+      wordWrap: { width: 280 },
     };
 
     // Mede o texto completo pra dimensionar o balão
     const medida = this.scene.make.text({ x: 0, y: 0, text: fala, style: estilo });
-    const larguraTexto = Math.min(medida.width, 200);
+    const larguraTexto = Math.min(medida.width, 286);
     const alturaTexto = medida.height;
     medida.destroy();
 
@@ -75,7 +76,7 @@ export class Balao {
 
     this.textoObj = this.scene.add.text(-largura / 2 + 7, -altura - 8 + 6, "", estilo);
     this.seta = this.scene.add
-      .text(largura / 2 - 9, -14, "▼", { fontFamily: UI.fonte, fontSize: "5px", color: "#ff7aa2" })
+      .text(largura / 2 - 12, -16, "▼", { fontFamily: UI.fonte, fontSize: FONT_SM, color: "#ff7aa2" })
       .setVisible(false);
 
     this.container = this.scene.add

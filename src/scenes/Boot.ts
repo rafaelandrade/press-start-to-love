@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { createCharacterTextures } from "../sprites/factory";
-import { UI, GAME_WIDTH, GAME_HEIGHT } from "../ui/constants";
+import { UI, GAME_WIDTH, GAME_HEIGHT, FONT_SM, FONT_LG } from "../ui/constants";
 import { fadeToScene } from "../ui/transitions";
 import { DIALOGOS } from "../dialogos";
 import {
@@ -42,7 +42,7 @@ export class Boot extends Phaser.Scene {
     const chapeu = this.add
       .text(GAME_WIDTH / 2, 26, t.chapeu, {
         fontFamily: UI.fonte,
-        fontSize: "8px",
+        fontSize: FONT_SM,
         color: UI.douradoYuumitcha,
       })
       .setOrigin(0.5)
@@ -52,7 +52,7 @@ export class Boot extends Phaser.Scene {
     const titulo = this.add
       .text(GAME_WIDTH / 2, 50, t.titulo, {
         fontFamily: UI.fonte,
-        fontSize: "22px",
+        fontSize: FONT_LG,
         color: UI.rosaGabitcha,
       })
       .setOrigin(0.5)
@@ -70,7 +70,7 @@ export class Boot extends Phaser.Scene {
     this.add
       .text(GAME_WIDTH / 2, 70, t.subtitulo, {
         fontFamily: UI.fonte,
-        fontSize: "7px",
+        fontSize: FONT_SM,
         color: UI.texto,
       })
       .setOrigin(0.5)
@@ -79,7 +79,7 @@ export class Boot extends Phaser.Scene {
     const assinatura = this.add
       .text(GAME_WIDTH / 2, 82, t.assinatura, {
         fontFamily: UI.fonte,
-        fontSize: "6px",
+        fontSize: FONT_SM,
         color: UI.tealRafitcho,
       })
       .setOrigin(0.5)
@@ -90,12 +90,12 @@ export class Boot extends Phaser.Scene {
     for (const lado of [-1, 1]) {
       const c = this.add
         .image(GAME_WIDTH / 2 + lado * 108, 50, "coracaoDourado")
-        .setScale(1.5)
+        .setScale(2)
         .setDepth(10);
       this.tweens.add({
         targets: c,
         y: 44,
-        scale: 2,
+        scale: 3, // tween transitório de animação
         duration: 600,
         yoyo: true,
         repeat: -1,
@@ -120,7 +120,7 @@ export class Boot extends Phaser.Scene {
     const start = this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT - 14, t.start, {
         fontFamily: UI.fonte,
-        fontSize: "8px",
+        fontSize: FONT_SM,
         color: UI.rosaGabitcha,
       })
       .setOrigin(0.5)

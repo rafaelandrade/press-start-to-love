@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { BaseFase } from "./BaseFase";
 import { DIALOGOS } from "../dialogos";
-import { UI, GAME_WIDTH } from "../ui/constants";
+import { UI, GAME_WIDTH, FONT_SM } from "../ui/constants";
 
 /**
  * Final — "A Carta" (INTOCÁVEL)
@@ -33,19 +33,20 @@ export class FinalCarta extends BaseFase {
     }
 
     // Os três no "telhado"
-    this.add.image(GAME_WIDTH / 2 - 20, 60, "gabitcha").setScale(1.5);
-    this.add.image(GAME_WIDTH / 2 + 20, 60, "rafitcho").setScale(1.5);
-    this.add.image(GAME_WIDTH / 2, 68, "yuumitcha").setScale(1.5);
+    this.add.image(GAME_WIDTH / 2 - 26, 60, "gabitcha").setScale(2);
+    this.add.image(GAME_WIDTH / 2 + 26, 60, "rafitcho").setScale(2);
+    this.add.image(GAME_WIDTH / 2, 72, "yuumitcha").setScale(2);
 
     // Carta linha por linha
     const linhas = DIALOGOS.final.carta;
     const texto = this.add
       .text(GAME_WIDTH / 2, 92, "", {
         fontFamily: UI.fonte,
-        fontSize: "6px",
+        fontSize: FONT_SM,
         color: UI.texto,
         align: "center",
         lineSpacing: 3,
+        wordWrap: { width: 304 },
       })
       .setOrigin(0.5, 0);
 

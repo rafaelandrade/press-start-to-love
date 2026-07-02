@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { UI, GAME_WIDTH, GAME_HEIGHT } from "./constants";
+import { UI, GAME_WIDTH, GAME_HEIGHT, FONT_SM } from "./constants";
 
 /**
  * Caixa de diálogo pixel-art simples, fixa na base da tela.
@@ -27,7 +27,7 @@ export class DialogBox {
     this.texto = scene.add
       .text(10, y - h / 2 + 8, "", {
         fontFamily: UI.fonte,
-        fontSize: "7px",
+        fontSize: FONT_SM,
         color: UI.texto,
         wordWrap: { width: GAME_WIDTH - 24 },
         lineSpacing: 4,

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { UI, GAME_WIDTH, GAME_HEIGHT } from "../ui/constants";
+import { UI, GAME_WIDTH, GAME_HEIGHT, FONT_SM, FONT_MD } from "../ui/constants";
 import { fadeIn, fadeToScene } from "../ui/transitions";
 
 /**
@@ -17,7 +17,7 @@ export abstract class BaseFase extends Phaser.Scene {
     this.add
       .text(GAME_WIDTH / 2, 24, this.titulo, {
         fontFamily: UI.fonte,
-        fontSize: "10px",
+        fontSize: FONT_MD,
         color: UI.rosaGabitcha,
       })
       .setOrigin(0.5);
@@ -28,7 +28,7 @@ export abstract class BaseFase extends Phaser.Scene {
       const dica = this.add
         .text(GAME_WIDTH / 2, GAME_HEIGHT - 12, "toque / espaço para continuar", {
           fontFamily: UI.fonte,
-          fontSize: "6px",
+          fontSize: FONT_SM,
           color: UI.texto,
         })
         .setOrigin(0.5)
@@ -47,7 +47,7 @@ export abstract class BaseFase extends Phaser.Scene {
     this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT / 2, "[ em construção ]", {
         fontFamily: UI.fonte,
-        fontSize: "8px",
+        fontSize: FONT_SM,
         color: UI.tealRafitcho,
       })
       .setOrigin(0.5);

@@ -71,7 +71,7 @@ export function chuvaDeCoracoes(
     loop: true,
     callback: () => {
       const x = Phaser.Math.Between(6, GAME_WIDTH - 6);
-      const escala = Phaser.Math.FloatBetween(0.8, 2.2);
+      const escala = Phaser.Math.Between(1, 2);
       const coracao = scene.add
         .image(x, GAME_HEIGHT + 8, "coracao")
         .setScale(escala)

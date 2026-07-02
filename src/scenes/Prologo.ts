@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { DIALOGOS } from "../dialogos";
-import { UI, GAME_WIDTH, GAME_HEIGHT } from "../ui/constants";
+import { UI, GAME_WIDTH, GAME_HEIGHT, FONT_SM, FONT_MD } from "../ui/constants";
 import { fadeIn, fadeToScene } from "../ui/transitions";
 import { TouchControls } from "../ui/TouchControls";
 import { Balao } from "../ui/Balao";
@@ -49,7 +49,7 @@ export class Prologo extends Phaser.Scene {
     this.criarCenario();
 
     // Gabitcha + malinha de rodinha
-    this.gabitcha = this.physics.add.sprite(40, CHAO_Y - 18, "gabitcha").setScale(1.5);
+    this.gabitcha = this.physics.add.sprite(40, CHAO_Y - 24, "gabitcha").setScale(2);
     (this.gabitcha.body as Phaser.Physics.Arcade.Body).setAllowGravity(false);
     this.gabitcha.setCollideWorldBounds(true);
     this.gabitcha.setDepth(20);
@@ -67,7 +67,7 @@ export class Prologo extends Phaser.Scene {
     const titulo = this.add
       .text(GAME_WIDTH / 2, 14, DIALOGOS.prologo.titulo, {
         fontFamily: UI.fonte,
-        fontSize: "9px",
+        fontSize: FONT_MD,
         color: "#7a4a2f",
       })
       .setOrigin(0.5)
@@ -80,7 +80,7 @@ export class Prologo extends Phaser.Scene {
     const dica = this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT - 10, DIALOGOS.prologo.dica, {
         fontFamily: UI.fonte,
-        fontSize: "7px",
+        fontSize: FONT_SM,
         color: "#5a3a24",
       })
       .setOrigin(0.5)
@@ -122,10 +122,10 @@ export class Prologo extends Phaser.Scene {
 
     // "Animação" de caminhada: bob vertical + malinha balançando atrás
     if (andando) {
-      this.gabitcha.y = CHAO_Y - 18 + Math.abs(Math.sin(time / 90)) * -2;
+      this.gabitcha.y = CHAO_Y - 24 + Math.abs(Math.sin(time / 90)) * -2;
       this.gabitcha.angle = Math.sin(time / 90) * 2;
     } else {
-      this.gabitcha.y = CHAO_Y - 18 + Math.sin(time / 300); // idle suave
+      this.gabitcha.y = CHAO_Y - 24 + Math.sin(time / 300); // idle suave
       this.gabitcha.angle = 0;
     }
 
@@ -173,37 +173,38 @@ export class Prologo extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(150);
     const painel = this.add
-      .rectangle(cx, cy, 230, 110, UI.painel)
+      .rectangle(cx, cy, 304, 124, UI.painel)
       .setScrollFactor(0)
       .setDepth(151)
       .setStrokeStyle(2, 0x2c3160);
 
     // Rafitcho + "monitor" com luz piscando
     const monitor = this.add
-      .rectangle(cx - 62, cy - 6, 34, 24, 0x0b0d1a)
+      .rectangle(cx - 105, cy - 6, 34, 24, 0x0b0d1a)
       .setScrollFactor(0)
       .setDepth(152)
       .setStrokeStyle(1, 0x4fd6c4);
     const luz = this.add
-      .rectangle(cx - 62, cy - 6, 28, 18, 0x4fd6c4, 0.35)
+      .rectangle(cx - 105, cy - 6, 28, 18, 0x4fd6c4, 0.35)
       .setScrollFactor(0)
       .setDepth(152);
     this.tweens.add({ targets: luz, alpha: 0.1, duration: 300, yoyo: true, repeat: -1 });
 
     const rafitcho = this.add
-      .image(cx - 62, cy + 26, "rafitcho")
-      .setScale(1.5)
+      .image(cx - 105, cy + 26, "rafitcho")
+      .setScale(2)
       .setScrollFactor(0)
       .setDepth(152);
     this.tweens.add({ targets: rafitcho, y: cy + 24, duration: 500, yoyo: true, repeat: -1 });
 
     const texto = this.add
-      .text(cx + 25, cy, "", {
+      .text(cx + 30, cy, "", {
         fontFamily: UI.fonte,
-        fontSize: "6px",
+        fontSize: FONT_SM,
         color: UI.texto,
         align: "center",
         lineSpacing: 4,
+        wordWrap: { width: 200 },
       })
       .setOrigin(0.5)
       .setScrollFactor(0)
@@ -253,7 +254,7 @@ export class Prologo extends Phaser.Scene {
     const narracao = this.add
       .text(cx, GAME_HEIGHT / 2, DIALOGOS.prologo.narracao, {
         fontFamily: UI.fonte,
-        fontSize: "8px",
+        fontSize: FONT_SM,
         color: UI.texto,
         align: "center",
         lineSpacing: 6,
@@ -299,7 +300,7 @@ export class Prologo extends Phaser.Scene {
         .setScrollFactor(0.25)
         .setDepth(-8)
         .setAlpha(0.85)
-        .setScale(Phaser.Math.FloatBetween(0.8, 1.6));
+        .setScale(Phaser.Math.Between(1, 2));
       this.tweens.add({
         targets: nuvem,
         x: nuvem.x + Phaser.Math.Between(30, 70),
@@ -351,11 +352,11 @@ export class Prologo extends Phaser.Scene {
     // Placa "SÃO PAULO →"
     const placaX = MUNDO_LARGURA - 260;
     this.add.rectangle(placaX, CHAO_Y - 14, 3, 22, 0x6b4a2f).setDepth(-4);
-    this.add.rectangle(placaX, CHAO_Y - 26, 62, 16, 0x3d6b35).setDepth(-4).setStrokeStyle(1, 0xffffff);
+    this.add.rectangle(placaX, CHAO_Y - 26, 100, 16, 0x3d6b35).setDepth(-4).setStrokeStyle(1, 0xffffff);
     this.add
       .text(placaX, CHAO_Y - 26, DIALOGOS.prologo.placa, {
         fontFamily: UI.fonte,
-        fontSize: "5px",
+        fontSize: FONT_SM,
         color: "#ffffff",
       })
       .setOrigin(0.5)
@@ -385,7 +386,7 @@ export class Prologo extends Phaser.Scene {
       const p = this.add
         .text(Phaser.Math.Between(100, MUNDO_LARGURA), Phaser.Math.Between(20, 55), "v", {
           fontFamily: UI.fonte,
-          fontSize: "5px",
+          fontSize: FONT_SM,
           color: "#3a3a3a",
         })
         .setScrollFactor(0.6)

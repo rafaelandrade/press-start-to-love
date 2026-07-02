@@ -15,12 +15,15 @@ new Phaser.Game({
   parent: "game",
   width: GAME_WIDTH,
   height: GAME_HEIGHT,
-  pixelArt: true, // desliga antialiasing (GAME_DESIGN.md seção 4)
   backgroundColor: UI.fundoNoite,
+  render: {
+    pixelArt: true, // desliga antialiasing (GAME_DESIGN.md seção 4)
+    antialias: false,
+    roundPixels: true,
+  },
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    zoom: 4,
   },
   physics: {
     default: "arcade",

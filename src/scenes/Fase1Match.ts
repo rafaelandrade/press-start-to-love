@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { DIALOGOS } from "../dialogos";
-import { UI, GAME_WIDTH, GAME_HEIGHT } from "../ui/constants";
+import { UI, GAME_WIDTH, GAME_HEIGHT, FONT_SM, FONT_MD } from "../ui/constants";
 import { fadeIn, fadeToScene } from "../ui/transitions";
 import { TouchControls } from "../ui/TouchControls";
 import { DialogBox } from "../ui/DialogBox";
@@ -53,7 +53,7 @@ export class Fase1Match extends Phaser.Scene {
     this.add
       .text(GAME_WIDTH / 2, 14, DIALOGOS.fase1.titulo, {
         fontFamily: UI.fonte,
-        fontSize: "10px",
+        fontSize: FONT_MD,
         color: UI.rosaGabitcha,
       })
       .setOrigin(0.5)
@@ -62,22 +62,22 @@ export class Fase1Match extends Phaser.Scene {
     this.vidasTexto = this.add
       .text(6, 6, "", {
         fontFamily: UI.fonte,
-        fontSize: "8px",
+        fontSize: FONT_SM,
         color: UI.rosaGabitcha,
       })
       .setDepth(50);
     this.atualizarVidas();
 
     // Gabitcha no "chão" da cidade
-    this.gabitcha = this.physics.add.sprite(GAME_WIDTH / 2, GAME_HEIGHT - 26, "gabitcha");
-    this.gabitcha.setScale(1.5);
+    this.gabitcha = this.physics.add.sprite(GAME_WIDTH / 2, GAME_HEIGHT - 32, "gabitcha");
+    this.gabitcha.setScale(2);
     (this.gabitcha.body as Phaser.Physics.Arcade.Body).setAllowGravity(false);
     this.gabitcha.setCollideWorldBounds(true);
 
     // Bounce de idle
     this.tweens.add({
       targets: this.gabitcha,
-      scaleY: 1.42,
+      scaleY: 1.9, // tween transitório de animação (exceção permitida)
       duration: 350,
       yoyo: true,
       repeat: -1,
@@ -112,7 +112,7 @@ export class Fase1Match extends Phaser.Scene {
     const instrucao = this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 16, DIALOGOS.fase1.instrucao, {
         fontFamily: UI.fonte,
-        fontSize: "8px",
+        fontSize: FONT_SM,
         color: UI.douradoYuumitcha,
         align: "center",
         lineSpacing: 6,
@@ -124,7 +124,7 @@ export class Fase1Match extends Phaser.Scene {
     const comecar = this.add
       .text(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 10, DIALOGOS.fase1.comecar, {
         fontFamily: UI.fonte,
-        fontSize: "6px",
+        fontSize: FONT_SM,
         color: UI.texto,
       })
       .setOrigin(0.5)
@@ -221,15 +221,15 @@ export class Fase1Match extends Phaser.Scene {
     const label = this.add
       .text(0, 0, texto, {
         fontFamily: UI.fonte,
-        fontSize: "5px",
+        fontSize: FONT_SM,
         color: corTexto,
         align: "center",
-        wordWrap: { width: 52 },
+        wordWrap: { width: 88 },
       })
       .setOrigin(0.5);
 
-    const card = this.add.container(x, -16, [fundo, label]);
-    card.setSize(58, 20);
+    const card = this.add.container(x, -20, [fundo, label]);
+    card.setSize(96, 32);
     this.physics.add.existing(card);
     return card;
   }
@@ -264,8 +264,8 @@ export class Fase1Match extends Phaser.Scene {
 
     // Rafitcho aparece pro encontro no café
     const rafitcho = this.add
-      .image(this.gabitcha.x + 60, GAME_HEIGHT - 26, "rafitcho")
-      .setScale(1.5)
+      .image(this.gabitcha.x + 60, GAME_HEIGHT - 32, "rafitcho")
+      .setScale(2)
       .setFlipX(true)
       .setAlpha(0);
     this.tweens.add({ targets: rafitcho, alpha: 1, duration: 600 });
@@ -286,7 +286,7 @@ export class Fase1Match extends Phaser.Scene {
     const coracao = this.add
       .text(x, GAME_HEIGHT - 40, "♥", {
         fontFamily: UI.fonte,
-        fontSize: Phaser.Math.Between(6, 10) + "px",
+        fontSize: FONT_SM,
         color: UI.rosaGabitcha,
       })
       .setOrigin(0.5);
@@ -335,7 +335,7 @@ export class Fase1Match extends Phaser.Scene {
     const neon = this.add
       .text(GAME_WIDTH - 60, 34, "❤ MATCH", {
         fontFamily: UI.fonte,
-        fontSize: "7px",
+        fontSize: FONT_SM,
         color: UI.tealRafitcho,
       })
       .setOrigin(0.5);
@@ -353,19 +353,19 @@ export class Fase1Match extends Phaser.Scene {
     if (!this.textures.exists("cardRuim")) {
       const g = this.make.graphics({ x: 0, y: 0 });
       g.fillStyle(UI.painel, 1);
-      g.fillRect(0, 0, 58, 20);
+      g.fillRect(0, 0, 96, 32);
       g.lineStyle(1, UI.linha, 1);
-      g.strokeRect(0, 0, 58, 20);
-      g.generateTexture("cardRuim", 58, 20);
+      g.strokeRect(0, 0, 96, 32);
+      g.generateTexture("cardRuim", 96, 32);
       g.destroy();
     }
     if (!this.textures.exists("cardBrilhante")) {
       const g = this.make.graphics({ x: 0, y: 0 });
       g.fillStyle(0xe9b44c, 1);
-      g.fillRect(0, 0, 58, 20);
+      g.fillRect(0, 0, 96, 32);
       g.lineStyle(1, 0xffffff, 1);
-      g.strokeRect(0, 0, 58, 20);
-      g.generateTexture("cardBrilhante", 58, 20);
+      g.strokeRect(0, 0, 96, 32);
+      g.generateTexture("cardBrilhante", 96, 32);
       g.destroy();
     }
   }
