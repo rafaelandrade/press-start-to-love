@@ -4,13 +4,39 @@
 // ============================================================
 
 export const DIALOGOS = {
+  telaInicial: {
+    chapeu: "★ FELIZ ANIVERSÁRIO ★",
+    titulo: "GABITCHA!",
+    subtitulo: "uma aventura feita com amor",
+    assinatura: "pelo seu Rafitcho ♥",
+    start: "PRESS START",
+  },
+
   prologo: {
     titulo: "Duas cidades",
+    dica: "→ ande para a direita",
+    // Falas da Gabitcha saindo da cidade pequena (typewriter no balão)
+    falas: [
+      "Mala pronta! Levei só o essencial:\n3 casacos, 5 batons e\nZERO arrependimentos.",
+      "Tchau, cidade pequena! Aqui todo\nmundo sabe da vida de todo mundo...\nagora vou fofocar de LONGE.",
+      "Mãe, eu ligo quando chegar!\n...mentira. Vou mandar áudio\nde 7 minutos.",
+      "São Paulo, se prepara.\nA GABITCHA tá chegando!",
+    ],
+    enquantoIsso:
+      "Enquanto isso, na cidade grande...\n\nRafitcho upava de nível.\nNo jogo. Só no jogo.",
+    placa: "SÃO PAULO →",
     narracao: "Duas vidas. Uma cidade gigante.\nZero chance de se encontrarem... certo?",
   },
 
   fase1: {
     titulo: "Match!",
+    // Intro com contexto (balões antes do dodge começar)
+    intro: [
+      "Cheguei! São Paulo, seus problemas\nacabaram. Os meus... começaram agora.",
+      "Hora de baixar o aplicativo\nde namoro. O que pode dar errado?",
+    ],
+    instrucao: "DESVIE dos perfis ruins!\nPEGUE o perfil brilhante ★",
+    comecar: "toque para começar",
     // TODO(seção 7): substituir/expandir com piadas internas — maior densidade de humor do jogo
     perfisRuins: [
       "O cara da foto com peixe 🐟",

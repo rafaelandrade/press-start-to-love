@@ -4,6 +4,7 @@ import { UI, GAME_WIDTH, GAME_HEIGHT } from "../ui/constants";
 import { fadeIn, fadeToScene } from "../ui/transitions";
 import { TouchControls } from "../ui/TouchControls";
 import { DialogBox } from "../ui/DialogBox";
+import { Balao } from "../ui/Balao";
 
 /**
  * Fase 1 — "Match!" (INTOCÁVEL — GAME_DESIGN.md seção 5)
@@ -24,12 +25,14 @@ export class Fase1Match extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private touch!: TouchControls;
   private dialogBox!: DialogBox;
+  private balao!: Balao;
   private vidasTexto!: Phaser.GameObjects.Text;
   private spawnTimer!: Phaser.Time.TimerEvent;
 
   private vidas = VIDAS_INICIAIS;
   private perfisSpawnados = 0;
   private terminou = false;
+  private jogando = false;
 
   constructor() {
     super("Fase1Match");
@@ -39,6 +42,7 @@ export class Fase1Match extends Phaser.Scene {
     this.vidas = VIDAS_INICIAIS;
     this.perfisSpawnados = 0;
     this.terminou = false;
+    this.jogando = false;
     this.perfilBrilhante = null;
 
     fadeIn(this);
@@ -88,16 +92,62 @@ export class Fase1Match extends Phaser.Scene {
     this.cursors = this.input.keyboard!.createCursorKeys();
     this.touch = new TouchControls(this);
     this.dialogBox = new DialogBox(this);
+    this.balao = new Balao(this);
 
-    this.spawnTimer = this.time.addEvent({
-      delay: INTERVALO_SPAWN_MS,
-      loop: true,
-      callback: () => this.spawnPerfil(),
-    });
+    // Intro com contexto antes do dodge começar
+    this.time.delayedCall(600, () => this.rodarIntro(0));
+  }
+
+  /** Balões de contexto → instrução → começa o jogo. */
+  private rodarIntro(i: number): void {
+    const falas = DIALOGOS.fase1.intro;
+    if (i < falas.length) {
+      this.balao.falar(this.gabitcha.x, this.gabitcha.y - 20, falas[i], () =>
+        this.rodarIntro(i + 1)
+      );
+      return;
+    }
+
+    // Instrução piscante no centro
+    const instrucao = this.add
+      .text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 16, DIALOGOS.fase1.instrucao, {
+        fontFamily: UI.fonte,
+        fontSize: "8px",
+        color: UI.douradoYuumitcha,
+        align: "center",
+        lineSpacing: 6,
+      })
+      .setOrigin(0.5)
+      .setDepth(60);
+    this.tweens.add({ targets: instrucao, scale: 1.08, duration: 400, yoyo: true, repeat: -1 });
+
+    const comecar = this.add
+      .text(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 10, DIALOGOS.fase1.comecar, {
+        fontFamily: UI.fonte,
+        fontSize: "6px",
+        color: UI.texto,
+      })
+      .setOrigin(0.5)
+      .setDepth(60)
+      .setAlpha(0.7);
+    this.tweens.add({ targets: comecar, alpha: 0.2, duration: 500, yoyo: true, repeat: -1 });
+
+    const iniciar = () => {
+      instrucao.destroy();
+      comecar.destroy();
+      this.jogando = true;
+      this.spawnTimer = this.time.addEvent({
+        delay: INTERVALO_SPAWN_MS,
+        loop: true,
+        callback: () => this.spawnPerfil(),
+      });
+    };
+    this.input.once("pointerdown", iniciar);
+    this.input.keyboard?.once("keydown-SPACE", iniciar);
   }
 
   update(): void {
-    if (this.terminou) return;
+    if (!this.jogando || this.terminou) return;
 
     const esquerda = this.cursors.left.isDown || this.touch.esquerda;
     const direita = this.cursors.right.isDown || this.touch.direita;
