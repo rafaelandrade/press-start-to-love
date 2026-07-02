@@ -272,9 +272,9 @@ const YUUMITCHA = {
 - [x] História e divisão de fases
 - [x] Sprites dos 3 personagens (v2: Gabitcha glow-up, Yuumitcha 12x12)
 - [ ] Piadas internas (aguardando o Rafael)
-- [ ] Esqueleto Phaser + config pixelArt
+- [x] Esqueleto Phaser + config pixelArt (pnpm + Vite + TS)
 - [ ] Prólogo
-- [ ] Fase 1 "Match!" (primeiro protótipo jogável)
+- [x] Fase 1 "Match!" (primeiro protótipo jogável)
 - [ ] Fases 2–6
 - [ ] Final "A Carta"
 - [ ] Controles touch + teste no dispositivo real dela
