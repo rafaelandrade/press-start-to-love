@@ -58,8 +58,8 @@ Pug filhote que "vem do futuro" — chega numa caixa misteriosa com remetente "O
 
 ### Fase 4 — "O Sonho da Viagem"
 - **Setup:** cena rápida do Rafitcho conseguindo o trabalho remoto (de pijama numa call, cifrão em dólar — piada autodepreciativa liberada).
-- **Cenário:** aeroporto/avião → level curto num cenário europeu (Torre Eiffel, Coliseu — ajustar para o destino real da viagem do casal).
-- **Mecânica:** fase contemplativa, sem inimigos. Coletáveis: fotos polaroid que preenchem um álbum.
+- **Cenário:** aeroporto/avião → level curto em SANTIAGO DO CHILE: Cordilheira dos Andes nevada no horizonte, Sky Costanera, palmeiras e mirante no final.
+- **Mecânica:** fase contemplativa, sem inimigos, sem timer, sem game over. Coletáveis: fotos polaroid que preenchem um álbum.
 - **Função no arco:** a recompensa e o respiro depois do caos do shopping.
 
 ### Fase 5 — "A Encomenda do Futuro"

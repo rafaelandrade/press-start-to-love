@@ -14,7 +14,8 @@ export const UI = {
 // pra não borrar (nada de 5/6/7/9/22px!).
 export const FONT_SM = "8px"; // diálogos, HUD, textos corridos
 export const FONT_MD = "16px"; // subtítulos / títulos de fase
-export const FONT_LG = "24px"; // título principal
+export const FONT_LG = "24px"; // títulos grandes
+export const FONT_XL = "32px"; // título da tela inicial
 
 export const GAME_WIDTH = 320;
 export const GAME_HEIGHT = 180;

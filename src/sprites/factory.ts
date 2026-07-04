@@ -9,7 +9,9 @@ export function createTextureFromData(
 ): void {
   if (scene.textures.exists(key)) return;
 
-  const canvas = scene.textures.createCanvas(key, data.size, data.size);
+  const width = data.grid[0].length;
+  const height = data.grid.length;
+  const canvas = scene.textures.createCanvas(key, width, height);
   if (!canvas) return;
   const ctx = canvas.getContext();
 

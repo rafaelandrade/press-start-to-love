@@ -6,7 +6,8 @@
   "packageManager": "pnpm@9.10.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "gen:photos": "node scripts/gen-photos.mjs",
+    "build": "node scripts/gen-photos.mjs && tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preview — Sprites</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        background: #dfe2ea;
+        font-family: monospace;
+        color: #444;
+      }
+      .linha {
+        display: flex;
+        align-items: flex-end;
+        gap: 48px;
+      }
+      figure {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      canvas {
+        image-rendering: pixelated;
+        background: repeating-conic-gradient(#d4d7e0 0% 25%, #dfe2ea 0% 50%) 0 0 / 16px 16px;
+      }
+      figcaption {
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="linha" id="palco"></div>
+    <p>escala 8x — fundo quadriculado = transparência</p>
+    <script type="module">
+      import { GABITCHA, RAFITCHO, YUUMITCHA } from "../src/sprites/data.ts";
+
+      const ESCALA = 8;
+      const sprites = [
+        ["Gabitcha", GABITCHA],
+        ["Rafitcho", RAFITCHO],
+        ["Yuumitcha", YUUMITCHA],
+      ];
+
+      const palco = document.getElementById("palco");
+      for (const [nome, data] of sprites) {
+        const largura = data.grid[0].length;
+        const altura = data.grid.length;
+
+        const canvas = document.createElement("canvas");
+        canvas.width = largura * ESCALA;
+        canvas.height = altura * ESCALA;
+        const ctx = canvas.getContext("2d");
+
+        data.grid.forEach((row, y) => {
+          [...row].forEach((ch, x) => {
+            if (ch === ".") return;
+            ctx.fillStyle = data.palette[ch];
+            ctx.fillRect(x * ESCALA, y * ESCALA, ESCALA, ESCALA);
+          });
+        });
+
+        const fig = document.createElement("figure");
+        const legenda = document.createElement("figcaption");
+        legenda.textContent = `${nome} (${largura}x${altura})`;
+        fig.append(canvas, legenda);
+        palco.append(fig);
+      }
+    </script>
+  </body>
+</html>

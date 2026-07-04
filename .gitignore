@@ -1,5 +1,21 @@
+# dependências
 node_modules/
+
+# build
 dist/
+
+# sistema operacional
 .DS_Store
+
+# arquivos locais / de ambiente
+*.local
 *.log
-.vercel/
+.env
+.env.*
+
+# Vercel
+.vercel
+
+# logs de package managers
+npm-debug.log*
+pnpm-debug.log*

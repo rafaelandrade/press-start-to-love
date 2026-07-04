@@ -14,30 +14,72 @@ const CORACAO_GRID = [
   "...X...",
 ];
 
+// Variedade de tamanho vem de texturas diferentes, nunca de escala fracionada
+const CORACAO_MINI_GRID = [
+  ".X.X.",
+  "XXXXX",
+  "XXXXX",
+  ".XXX.",
+  "..X..",
+];
+
+const CORACAO_GRANDE_GRID = [
+  "..XX.XX..",
+  ".XXXXXXX.",
+  "XXXXXXXXX",
+  "XXXXXXXXX",
+  "XXXXXXXXX",
+  ".XXXXXXX.",
+  "..XXXXX..",
+  "...XXX...",
+  "....X....",
+];
+
+function criarTexturaDeGrid(
+  scene: Phaser.Scene,
+  key: string,
+  grid: string[],
+  cor: number
+): void {
+  if (scene.textures.exists(key)) return;
+  const g = scene.make.graphics({ x: 0, y: 0 });
+  g.fillStyle(cor, 1);
+  grid.forEach((row, y) => {
+    [...row].forEach((ch, x) => {
+      if (ch === "X") g.fillRect(x, y, 1, 1);
+    });
+  });
+  g.generateTexture(key, grid[0].length, grid.length);
+  g.destroy();
+}
+
 export function criarTexturaCoracao(
   scene: Phaser.Scene,
   key = "coracao",
   cor = 0xff7aa2
 ): void {
-  if (scene.textures.exists(key)) return;
-  const g = scene.make.graphics({ x: 0, y: 0 });
-  g.fillStyle(cor, 1);
-  CORACAO_GRID.forEach((row, y) => {
-    [...row].forEach((ch, x) => {
-      if (ch === "X") g.fillRect(x, y, 1, 1);
-    });
-  });
-  g.generateTexture(key, 7, 6);
-  g.destroy();
+  criarTexturaDeGrid(scene, key, CORACAO_GRID, cor);
+}
+
+/** Registra os 3 tamanhos de coração (5x5, 7x6, 9x9). */
+export function criarTexturasCoracoes(scene: Phaser.Scene, cor = 0xff7aa2): void {
+  criarTexturaDeGrid(scene, "coracaoMini", CORACAO_MINI_GRID, cor);
+  criarTexturaDeGrid(scene, "coracao", CORACAO_GRID, cor);
+  criarTexturaDeGrid(scene, "coracaoGrande", CORACAO_GRANDE_GRID, cor);
 }
 
 export function criarTexturaNuvem(scene: Phaser.Scene, key = "nuvem"): void {
   if (scene.textures.exists(key)) return;
   const g = scene.make.graphics({ x: 0, y: 0 });
+  // topo iluminado
   g.fillStyle(0xffffff, 1);
-  g.fillRect(4, 4, 22, 6);
-  g.fillRect(8, 1, 10, 4);
-  g.fillRect(2, 6, 26, 4);
+  g.fillRect(9, 1, 11, 3);
+  g.fillRect(4, 3, 20, 4);
+  g.fillRect(2, 6, 26, 3);
+  // sombra na base (2º tom)
+  g.fillStyle(0xc9dcea, 1);
+  g.fillRect(3, 9, 24, 2);
+  g.fillRect(7, 11, 15, 1);
   g.generateTexture(key, 30, 12);
   g.destroy();
 }
@@ -65,16 +107,15 @@ export function chuvaDeCoracoes(
   scene: Phaser.Scene,
   opts: { intervalo?: number; depth?: number } = {}
 ): Phaser.Time.TimerEvent {
-  criarTexturaCoracao(scene);
+  criarTexturasCoracoes(scene);
+  const texturas = ["coracaoMini", "coracao", "coracaoGrande"];
   return scene.time.addEvent({
     delay: opts.intervalo ?? 350,
     loop: true,
     callback: () => {
       const x = Phaser.Math.Between(6, GAME_WIDTH - 6);
-      const escala = Phaser.Math.Between(1, 2);
       const coracao = scene.add
-        .image(x, GAME_HEIGHT + 8, "coracao")
-        .setScale(escala)
+        .image(x, GAME_HEIGHT + 8, texturas[Phaser.Math.Between(0, 2)])
         .setAlpha(0.9)
         .setDepth(opts.depth ?? 1)
         .setScrollFactor(0);
@@ -141,11 +182,11 @@ export function confete(
         .rectangle(Phaser.Math.Between(0, GAME_WIDTH), -4, 2, 2, cor)
         .setDepth(2)
         .setScrollFactor(0);
+      // sem rotação: quadradinho girado vira borda serrilhada fora do grid
       scene.tweens.add({
         targets: c,
         y: GAME_HEIGHT + 6,
         x: c.x + Phaser.Math.Between(-25, 25),
-        angle: Phaser.Math.Between(90, 360),
         duration: Phaser.Math.Between(2500, 4500),
         onComplete: () => c.destroy(),
       });
